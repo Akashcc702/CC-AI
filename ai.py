@@ -1,3 +1,4 @@
+import os
 from openai import OpenAI
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, CommandHandler, filters, ContextTypes
@@ -12,7 +13,7 @@ def home():
     return "CC AI Bot Running"
 
 def run():
-    app_web.run(host='0.0.0.0', port=8080)
+    app_web.run(host='0.0.0.0', port=8080, use_reloader=False)
 
 def keep_alive():
     t = Thread(target=run)
@@ -21,10 +22,10 @@ def keep_alive():
 # ---------------- AI CLIENT ----------------
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key="OPENROUTER_API_KEY"
+    api_key=os.getenv("OPENROUTER_API_KEY")
 )
 
-BOT_TOKEN = "TELEGRAM_BOT_TOKEN"
+BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 # memory store
 user_memory = {}
