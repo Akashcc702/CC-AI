@@ -10,22 +10,25 @@ app_web = Flask('')
 
 @app_web.route('/')
 def home():
-    return "CC AI Bot Running"
+    return "CC AI Bot Running 🚀"
 
 def run():
-    app_web.run(host='0.0.0.0', port=8080, use_reloader=False)
+    port = int(os.environ.get("PORT", 10000))
+    app_web.run(host='0.0.0.0', port=port)
 
 def keep_alive():
     t = Thread(target=run)
     t.start()
 
+# ---------------- API KEYS ----------------
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+
 # ---------------- AI CLIENT ----------------
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY")
+    api_key=OPENROUTER_API_KEY
 )
-
-BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 # memory store
 user_memory = {}
